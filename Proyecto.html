@@ -202,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="importación-de-librerías" class="level1">
 <h1>Importación de librerías</h1>
-<div id="d3ccfa42" class="cell" data-execution_count="1">
+<div id="213395ae" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
@@ -223,13 +223,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="lectura-de-los-datos" class="level1">
 <h1>Lectura de los datos:</h1>
-<div id="627588ab" class="cell" data-execution_count="2">
+<div id="81e1d0c6" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'/home/esteban/.cache/kagglehub/datasets/dhrubangtalukdar/200-years-of-global-major-earthquakes-18262026/versions/1/earthquake1826_2026.csv'</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
@@ -510,7 +510,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="información-de-los-datos" class="level2">
 <h2 class="anchored" data-anchor-id="información-de-los-datos">Información de los datos</h2>
-<div id="00ad34a6" class="cell" data-execution_count="3">
+<div id="6472a864" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data.info()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -554,7 +554,7 @@ memory usage: 15.4 MB</code></pre>
 </section>
 <section id="limpieza-y-transformación-de-datos" class="level1">
 <h1>Limpieza y transformación de datos</h1>
-<div id="2beb83d7" class="cell" data-execution_count="4">
+<div id="1f128f2d" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'tiempo'</span>] <span class="op">=</span> pd.to_datetime(data[<span class="st">'time'</span>], <span class="bu">format</span> <span class="op">=</span> <span class="st">'ISO8601'</span>)</span>
@@ -565,7 +565,7 @@ memory usage: 15.4 MB</code></pre>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>data_final <span class="op">=</span> data[columnas_correctas]</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>data_final</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -690,12 +690,12 @@ memory usage: 15.4 MB</code></pre>
 </div>
 <section id="número-de-valores-nulos-debido-a-que-son-datos-muy-antiguos" class="level2">
 <h2 class="anchored" data-anchor-id="número-de-valores-nulos-debido-a-que-son-datos-muy-antiguos">Número de valores nulos debido a que son datos muy antiguos:</h2>
-<div id="4b5dacc1" class="cell" data-execution_count="5">
+<div id="e1c6cef5" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_final[<span class="st">'depth'</span>].isnull().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>np.int64(593)</code></pre>
 </div>
 </div>
@@ -781,7 +781,7 @@ memory usage: 15.4 MB</code></pre>
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/meedlmo2911\.github\.io\/Proyecto_visualizacion_datos\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
