@@ -445,10 +445,6 @@ world = gpd.read_file(url)
 # FILTRO (elige UNA opción)
 # =========================
 
-# 🔹 Opción A: top 1%
-#threshold = data['mag'].quantile(0.99)
-#top_quakes = data[data['mag'] >= threshold]
-
 # 🔹 Opción B (RECOMENDADA): top 15
 top_quakes = data.nlargest(15, "mag")
 
@@ -515,7 +511,7 @@ ax.legend(
 # TÍTULO DINÁMICO
 # =========================
 ax.set_title(
-    "Terremotos más fuertes\n(Tamaño proporcional a magnitud)",
+    "15 Terremotos más fuertes\n(Tamaño proporcional a magnitud)",
     fontsize=14
 )
 
