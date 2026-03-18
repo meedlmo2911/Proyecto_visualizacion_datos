@@ -211,7 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="importación-de-librerías" class="level1">
 <h1>Importación de librerías</h1>
-<div id="a70b5c30" class="cell" data-execution_count="1">
+<div id="8ea92f1f" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
@@ -243,13 +243,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="lectura-de-los-datos" class="level1">
 <h1>Lectura de los datos:</h1>
-<div id="58a9f8dd" class="cell" data-execution_count="2">
+<div id="7a876454" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'/home/esteban/.cache/kagglehub/datasets/dhrubangtalukdar/200-years-of-global-major-earthquakes-18262026/versions/1/earthquake1826_2026.csv'</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -530,7 +530,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="información-de-los-datos" class="level2">
 <h2 class="anchored" data-anchor-id="información-de-los-datos">Información de los datos</h2>
-<div id="626ad629" class="cell" data-execution_count="3">
+<div id="73dd2576" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data.info()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -574,7 +574,7 @@ memory usage: 15.4 MB</code></pre>
 </section>
 <section id="limpieza-y-transformación-de-datos" class="level1">
 <h1>Limpieza y transformación de datos</h1>
-<div id="e0ecb662" class="cell" data-execution_count="4">
+<div id="bffdf56c" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'tiempo'</span>] <span class="op">=</span> pd.to_datetime(data[<span class="st">'time'</span>], <span class="bu">format</span> <span class="op">=</span> <span class="st">'ISO8601'</span>)</span>
@@ -585,7 +585,7 @@ memory usage: 15.4 MB</code></pre>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>data_final <span class="op">=</span> data[columnas_correctas]</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>data_final</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -710,12 +710,12 @@ memory usage: 15.4 MB</code></pre>
 </div>
 <section id="número-de-valores-nulos-debido-a-que-son-datos-muy-antiguos" class="level2">
 <h2 class="anchored" data-anchor-id="número-de-valores-nulos-debido-a-que-son-datos-muy-antiguos">Número de valores nulos debido a que son datos muy antiguos:</h2>
-<div id="603f41c7" class="cell" data-execution_count="5">
+<div id="553fc167" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_final[<span class="st">'depth'</span>].isnull().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>np.int64(593)</code></pre>
 </div>
 </div>
@@ -736,7 +736,7 @@ memory usage: 15.4 MB</code></pre>
 <h2 class="anchored" data-anchor-id="mapa-de-calor-de-terremotos-en-sudamérica">Mapa de calor de terremotos en Sudamérica</h2>
 <section id="particularmente-para-sudamérica-se-realizó-el-mismo-tratamiento-con-geopandas-del-dataframe.-para-uruguay-se-tuvieron-muy-pocos-registros-esto-se-debe-a-lo-siguiente.-desde-el-año-1900-se-han-registrado-3-terremotos-con-una-magnitud-mayor-a-5-mientras-que-terremotos-de-magnitud-menor-a-5-son-más-comunes.-pero-la-mayoría-de-estos-se-registra-muy-cerca-de-las-fronteras-con-brasil-argentina-o-en-el-estuario-del-río-de-la-plata." class="level3">
 <h3 class="anchored" data-anchor-id="particularmente-para-sudamérica-se-realizó-el-mismo-tratamiento-con-geopandas-del-dataframe.-para-uruguay-se-tuvieron-muy-pocos-registros-esto-se-debe-a-lo-siguiente.-desde-el-año-1900-se-han-registrado-3-terremotos-con-una-magnitud-mayor-a-5-mientras-que-terremotos-de-magnitud-menor-a-5-son-más-comunes.-pero-la-mayoría-de-estos-se-registra-muy-cerca-de-las-fronteras-con-brasil-argentina-o-en-el-estuario-del-río-de-la-plata.">Particularmente para Sudamérica se realizó el mismo tratamiento con geopandas del dataframe. Para Uruguay, se tuvieron muy pocos registros, esto se debe a lo siguiente. Desde el año 1900 se han registrado 3 terremotos con una magnitud mayor a 5, mientras que terremotos de magnitud menor a 5 son más comunes. Pero la mayoría de estos se registra muy cerca de las fronteras con Brasil, Argentina o en el estuario del río de la plata.</h3>
-<div id="00648c3b" class="cell" data-execution_count="6">
+<div id="c89d0038" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -758,7 +758,7 @@ memory usage: 15.4 MB</code></pre>
 </div>
 </div>
 </div>
-<div id="396964d1" class="cell" data-execution_count="7">
+<div id="3d4854a1" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
@@ -836,7 +836,7 @@ memory usage: 15.4 MB</code></pre>
 </div>
 </div>
 </div>
-<div id="8ffe4b75" class="cell" data-execution_count="8">
+<div id="f22fdbff" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
@@ -914,7 +914,7 @@ memory usage: 15.4 MB</code></pre>
 </div>
 </div>
 </div>
-<div id="270166d2" class="cell" data-execution_count="9">
+<div id="d5eb162a" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># =========================</span></span>
@@ -992,7 +992,7 @@ memory usage: 15.4 MB</code></pre>
 </div>
 </div>
 </div>
-<div id="d2ac4202" class="cell" data-execution_count="10">
+<div id="399ed728" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># =========================</span></span>

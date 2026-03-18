@@ -359,3 +359,557 @@ ax.axis("off")
 
 plt.show()
 ```
+
+# Visualización de magnitud de los terremotos representados por color y tamaño.
+
+### Se ha visualizado globalmente aquellos países que presentan más terremotos. Además de esta visualización también sería interesante visualizar directamente los terremotos y particularmente una representación donde se puedan ver donde han sido los terremotos más fuertes. Primero, se presentará una visualización que fue realizada mediante la librería cartopy mostrando puntualmente todos los terremotos de los que se tiene registro, posteriormente se añadirá más complejidad al gráfico como variación en el tamaño de los puntos dependiendo de la magnitud del terremoto.
+
+```{python}
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+
+ax = plt.axes(projection=ccrs.PlateCarree())
+# Añadir mapa base
+ax.add_feature(cfeature.LAND)
+ax.add_feature(cfeature.OCEAN)
+ax.add_feature(cfeature.COASTLINE)
+ax.add_feature(cfeature.BORDERS, linestyle=':')
+
+# Dibujar epicentros
+ax.scatter(
+    data["longitude"],
+    data["latitude"],
+    s=5,
+    c="red",
+    alpha=0.5,
+    transform=ccrs.PlateCarree()
+)
+
+ax.set_title("Epicentros de terremotos a nivel mundial")
+plt.show()
+```
+
+### En este gráfico se pueden visualizar todas las observaciones de terremotos contenidas en el dataset. Se pueden identificar claramente como los terremotos son comunes en los límites de las placas tectónicas pero tienden a escasear lejos de estos. De todos estos países ya se han identificado algunos de los sísmicamente más activos en las visualizaciones anteriores, pero no se han visualizado las observaciones concretas de que terremotos han sido los más devastadores. Una visualización de este tipo ayudaría a conocer que interacción entre placas es la más peligrosa.
+
+
+### Para esto es necesario visualizar los terremotos más fuertes, mayores al 90% o 95% del resto de terremotos.
+
+```{python}
+import matplotlib.pyplot as plt
+
+# 1. Calcular el percentil 90 (top 10%)
+threshold = data['mag'].quantile(0.99)
+
+# 2. Filtrar terremotos más fuertes
+top_quakes = data[data['mag'] >= threshold]
+
+# 3. Crear GeoDataFrame
+gdf = gpd.GeoDataFrame(
+    top_quakes,
+    geometry=gpd.points_from_xy(top_quakes['longitude'], top_quakes['latitude']),
+    crs="EPSG:4326"
+)
+
+
+# 5. Graficar
+fig, ax = plt.subplots(figsize=(12, 6))
+
+# mapa base
+world.plot(ax=ax, color='lightgray', edgecolor='black')
+
+# terremotos (tamaño proporcional a magnitud)
+gdf.plot(
+    ax=ax,
+    markersize=gdf['mag'] * 10,  # 👈 ajusta escala si quieres
+    color='red',
+    alpha=0.6
+)
+
+plt.title("Top 1% Terremotos más fuertes")
+plt.show()
+```
+
+
+
+```{python}
+import matplotlib.pyplot as plt
+import geopandas as gpd
+import numpy as np
+
+# --- NORMALIZACIÓN ---
+mag = gdf_top['mag']
+mag_norm = (mag - mag.min()) / (mag.max() - mag.min())
+
+# --- ESCALA DE TAMAÑOS ---
+sizes = 300 + (mag_norm ** 2) * 3000
+
+# --- FIGURA ---
+fig, ax = plt.subplots(figsize=(14, 7))
+
+# mapa base
+world.plot(ax=ax, color='#f5f5f5', edgecolor='gray')
+
+# puntos
+gdf_top.plot(
+    ax=ax,
+    markersize=sizes,
+    color='darkred',
+    alpha=0.7
+)
+
+# --- BONUS PRO: etiquetas ---
+for x, y, m in zip(gdf_top.geometry.x, gdf_top.geometry.y, mag):
+    ax.text(x, y, f"{m:.1f}", fontsize=8, ha='center')
+
+# --- LEYENDA DE TAMAÑOS (CLAVE) ---
+# valores de referencia (puedes ajustarlos)
+legend_mags = [8.8, 9.0, 9.2, 9.5]
+
+legend_sizes = 300 + (((np.array(legend_mags) - mag.min()) / (mag.max() - mag.min())) ** 2) * 3000
+
+# crear puntos ficticios para la leyenda
+for s, m in zip(legend_sizes, legend_mags):
+    ax.scatter([], [], s=s, color='darkred', alpha=0.7, label=f"{m}")
+
+ax.legend(
+    title="Magnitud",
+    scatterpoints=1,
+    frameon=True,
+    labelspacing=3,
+    loc='lower left'
+)
+
+# --- TÍTULO ---
+ax.set_title("Top 15 terremotos más fuertes\n(Tamaño proporcional a magnitud)", fontsize=14)
+
+# quitar ejes (queda más limpio)
+ax.set_axis_off()
+
+plt.show()
+```
+
+
+```{python}
+import altair as alt
+import pandas as pd
+
+# evitar límite de filas
+alt.data_transformers.disable_max_rows()
+
+# --- DATA LIMPIA ---
+df = gdf.copy()
+
+# coordenadas
+df['lon'] = df.geometry.x
+df['lat'] = df.geometry.y
+
+# quedarnos solo con lo necesario
+df = df[['mag', 'lon', 'lat']].copy()
+df = df.dropna()
+
+# --- PERCENTILES ---
+df['percentile'] = df['mag'].rank(pct=True) * 100
+
+# --- ESCALA DE TAMAÑO NO LINEAL ---
+mag = df['mag']
+mag_norm = (mag - mag.min()) / (mag.max() - mag.min())
+df['size'] = 20 + (mag_norm ** 2) * 800
+
+# --- SLIDER ---
+slider = alt.binding_range(min=80, max=100, step=1, name='Percentil mínimo:')
+percentil = alt.param(value=95, bind=slider)
+
+# --- MAPA BASE ---
+world = alt.Chart(
+    alt.topo_feature(
+        'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json',
+        'countries'
+    )
+).mark_geoshape(
+    fill='#f5f5f5',
+    stroke='lightgray'
+).properties(
+    width=800,
+    height=450
+).project('equalEarth')
+
+# --- PUNTOS ---
+points = alt.Chart(df).mark_circle(
+    opacity=0.75
+).encode(
+    longitude='lon:Q',
+    latitude='lat:Q',
+    size=alt.Size('size:Q', legend=None),
+    color=alt.Color(
+        'mag:Q',
+        scale=alt.Scale(scheme='reds'),
+        legend=alt.Legend(title="Magnitud")
+    ),
+    tooltip=[
+        alt.Tooltip('mag:Q', title='Magnitud'),
+        alt.Tooltip('percentile:Q', title='Percentil')
+    ]
+).transform_filter(
+    f"datum.percentile >= {percentil.name}"
+).add_params(
+    percentil
+)
+
+# --- COMBINAR ---
+chart = (world + points).interactive()
+
+chart
+```
+
+
+### Este último gráfico entrega información muy interesante, se observa que en Sudamérica, en Chile han ocurrido los terremotos más fuertes. En Asia se observa en el sudeste asiático y en el norte, en Japón y en Siberia.
+
+# Relación entre magnitud y profundidad
+
+```{python}
+import pandas as pd
+import altair as alt
+
+# =========================
+# PREPARACIÓN DE DATOS
+# =========================
+
+df = data.dropna(subset=["depth", "mag"]).copy()
+
+alt.data_transformers.disable_max_rows()
+
+# =========================
+# BINNING DE PROFUNDIDAD
+# =========================
+
+df_binned = (
+    df.assign(depth_bin=pd.cut(df["depth"], bins=30))
+      .dropna(subset=["depth_bin"])
+      .groupby("depth_bin", observed=False)
+      .agg(
+          depth_mid=("depth", "mean"),
+          mag_mean=("mag", "mean"),
+          n=("mag", "size")
+      )
+      .reset_index(drop=True)
+)
+
+# =========================
+# ESCALAS (más limpio)
+# =========================
+
+x_domain = [df_binned["depth_mid"].min(), df_binned["depth_mid"].max()]
+y_domain = [
+    df_binned["mag_mean"].min() - 0.15,
+    df_binned["mag_mean"].max() + 0.15
+]
+
+# =========================
+# GRÁFICO
+# =========================
+
+chart = (
+    alt.Chart(df_binned)
+    .mark_line(
+        point=alt.OverlayMarkDef(size=80, filled=True),
+        strokeWidth=3,
+        color="#1f77b4"
+    )
+    .encode(
+        x=alt.X(
+            "depth_mid:Q",
+            title="Profundidad del sismo (km)",
+            scale=alt.Scale(domain=x_domain),
+            axis=alt.Axis(labelFontSize=12, titleFontSize=14)
+        ),
+        y=alt.Y(
+            "mag_mean:Q",
+            title="Magnitud promedio",
+            scale=alt.Scale(domain=y_domain),
+            axis=alt.Axis(labelFontSize=12, titleFontSize=14, format=".2f")
+        ),
+        tooltip=[
+            alt.Tooltip("depth_mid:Q", title="Profundidad media", format=".2f"),
+            alt.Tooltip("mag_mean:Q", title="Magnitud promedio", format=".2f"),
+            alt.Tooltip("n:Q", title="Número de sismos")
+        ]
+    )
+    .properties(
+        title="Relación entre profundidad y magnitud promedio de los sismos",
+        width=760,
+        height=420
+    )
+    .configure_title(fontSize=18, anchor="start")
+    .configure_axis(grid=True)
+)
+
+chart
+```
+
+```{python}
+import altair as alt
+import pandas as pd
+
+# =========================
+# PREPARACIÓN
+# =========================
+
+df = data.copy()
+
+# convertir fecha
+df["fecha"] = pd.to_datetime(df["fecha"], errors="coerce")
+df["year"] = df["fecha"].dt.year
+
+# quedarnos solo con columnas seguras
+df = df[["depth", "mag", "year"]].copy()
+
+# limpiar
+df = df.dropna().copy()
+df["year"] = df["year"].astype(int)
+alt.data_transformers.disable_max_rows()
+
+# =========================
+# FILTRAR AÑOS CON DATOS SUFICIENTES
+# =========================
+
+min_eventos = 50
+
+years_validos = (
+    df["year"]
+    .value_counts()
+    .loc[lambda x: x >= min_eventos]
+    .index
+)
+
+df = df[df["year"].isin(years_validos)].copy()
+
+# =========================
+# ESCALAS
+# =========================
+
+depth_domain = [df["depth"].min(), df["depth"].max()]
+
+df_temp = (
+    df.assign(depth_bin=pd.cut(df["depth"], bins=30))
+      .dropna(subset=["depth_bin"])
+      .groupby(["year", "depth_bin"], observed=False)
+      .agg(mag_mean=("mag", "mean"))
+      .reset_index()
+)
+
+y_domain = [
+    df_temp["mag_mean"].min() - 0.15,
+    df_temp["mag_mean"].max() + 0.15
+]
+
+# =========================
+# SELECTOR DE AÑO
+# =========================
+
+year_param = alt.param(
+    value=int(df["year"].max()),
+    bind=alt.binding_select(
+        options=sorted(df["year"].unique()),
+        name="Año: "
+    )
+)
+
+# =========================
+# GRÁFICO
+# =========================
+
+chart = (
+    alt.Chart(df)
+    .mark_line(
+        point=alt.OverlayMarkDef(size=70, filled=True),
+        strokeWidth=3,
+        color="#d62728"
+    )
+    .encode(
+        x=alt.X(
+            "depth:Q",
+            bin=alt.Bin(maxbins=30),
+            title="Profundidad del sismo (km)",
+            scale=alt.Scale(domain=depth_domain, nice=False),
+            axis=alt.Axis(labelFontSize=12, titleFontSize=14)
+        ),
+        y=alt.Y(
+            "mean(mag):Q",
+            title="Magnitud promedio",
+            scale=alt.Scale(domain=y_domain, nice=False),
+            axis=alt.Axis(labelFontSize=12, titleFontSize=14, format=".2f")
+        ),
+        tooltip=[
+            alt.Tooltip("depth:Q", bin=True, title="Rango de profundidad"),
+            alt.Tooltip("mean(mag):Q", title="Magnitud promedio", format=".2f"),
+            alt.Tooltip("count():Q", title="Número de sismos")
+        ]
+    )
+    .transform_filter(
+        alt.datum.year == year_param
+    )
+    .add_params(year_param)
+    .properties(
+        title="Tendencia de la magnitud promedio según profundidad (por año)",
+        width=760,
+        height=420
+    )
+    .configure_title(fontSize=18, anchor="start")
+    .configure_axis(grid=True)
+    .interactive()
+)
+
+chart
+```
+
+### Se puede observar que no existe una relación linealmente dependiente de la profundidad del sismo y su magnitud. Sin embargo se ve que los sismos a una profundidad menor a 300 km tienen una magnitud menor en promedio, mientras que aquellos sismos a una profundidad mayor a 300km la magnitud es mayor e incluso mucho mayor.Este punto quizá sea debido a la zona de transición entre la astenosfera y el manto inferior.
+
+# Tendencia temporal de terremotos
+
+```{python}
+import pandas as pd
+import altair as alt
+
+# =========================
+# PREPARACIÓN
+# =========================
+
+df = data.copy()
+
+# fecha
+df["fecha"] = pd.to_datetime(df["fecha"], errors="coerce")
+df = df.dropna(subset=["fecha"]).copy()
+
+alt.data_transformers.disable_max_rows()
+
+# =========================
+# FILTRO DE AÑOS CON SUFICIENTES DATOS
+# =========================
+
+min_eventos = 50
+
+years_validos = (
+    df["fecha"].dt.year
+    .value_counts()
+    .loc[lambda x: x >= min_eventos]
+    .index
+)
+
+df = df[df["fecha"].dt.year.isin(years_validos)].copy()
+
+# =========================
+# AGREGACIONES
+# =========================
+
+# mensual
+df_mensual = (
+    df.groupby(pd.Grouper(key="fecha", freq="MS"))
+      .size()
+      .reset_index(name="n")
+      .sort_values("fecha")
+)
+
+# promedio móvil
+df_mensual["ma_6m"] = df_mensual["n"].rolling(6, min_periods=1).mean()
+
+# anual
+df_anual = (
+    df.groupby(df["fecha"].dt.year)
+      .size()
+      .reset_index(name="n")
+      .rename(columns={"fecha": "year"})
+)
+
+df_anual["year_date"] = pd.to_datetime(df_anual["year"].astype(str) + "-01-01")
+
+# =========================
+# INTERACCIÓN
+# =========================
+
+brush = alt.selection_interval(encodings=["x"])
+
+# =========================
+# GRÁFICO PRINCIPAL
+# =========================
+
+base = alt.Chart(df_mensual).encode(
+    x=alt.X("fecha:T", title="Tiempo")
+)
+
+line_eventos = base.mark_line(strokeWidth=2.5).encode(
+    y=alt.Y("n:Q", title="Número de terremotos"),
+    tooltip=[
+        alt.Tooltip("fecha:T", title="Mes"),
+        alt.Tooltip("n:Q", title="Eventos")
+    ]
+).transform_filter(brush)
+
+line_media = base.mark_line(strokeWidth=3, color="#d62728").encode(
+    y="ma_6m:Q",
+    tooltip=[
+        alt.Tooltip("fecha:T", title="Mes"),
+        alt.Tooltip("ma_6m:Q", title="Media móvil (6m)", format=".2f")
+    ]
+).transform_filter(brush)
+
+serie = (line_eventos + line_media).properties(
+    width=780,
+    height=260,
+    title="Evolución mensual de terremotos"
+)
+
+# =========================
+# BARRAS ANUALES
+# =========================
+
+barras = alt.Chart(df_anual).mark_bar().encode(
+    x=alt.X("year_date:T", title="Año", axis=alt.Axis(format="%Y")),
+    y=alt.Y("n:Q", title="Total anual"),
+    tooltip=[
+        alt.Tooltip("year:O", title="Año"),
+        alt.Tooltip("n:Q", title="Total")
+    ]
+).properties(
+    width=780,
+    height=180,
+    title="Actividad sísmica anual"
+)
+
+# =========================
+# SELECTOR TEMPORAL
+# =========================
+
+selector = alt.Chart(df_mensual).mark_area(opacity=0.8).encode(
+    x=alt.X("fecha:T", title="Selecciona un rango temporal"),
+    y=alt.Y("n:Q", title="Eventos"),
+    tooltip=[
+        alt.Tooltip("fecha:T", title="Mes"),
+        alt.Tooltip("n:Q", title="Eventos")
+    ]
+).add_params(brush).properties(
+    width=780,
+    height=110
+)
+
+# =========================
+# DASHBOARD
+# =========================
+
+dashboard = alt.vconcat(
+    serie,
+    barras,
+    selector,
+    spacing=18
+).properties(
+    title="Dashboard temporal de actividad sísmica"
+).configure_title(
+    fontSize=20,
+    anchor="start"
+).configure_axis(
+    grid=True
+)
+
+dashboard
+```
+
+### Se observa un incremento notable a partir de 1965, esto se debe al aumento de herramientas de medición así como el aumento del registro sísmico en países en vías de desarrollo y zonas muy alejadas de centros urbanos. A partir de 1975 se nota una cantidad mucho más constante de observaciones, a partir de aquí se puede decir que 2011 fue el año  más sísmicamente activo del planeta desde que se tienen registros sísmicos tomados en el acto.
