@@ -1,7 +1,15 @@
 ---
-title: "proyecto_web_limpio"
+title: "Inicio"
 ---
 
-This is a Quarto website.
+# Proyecto de Visualización de Datos
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Este proyecto analiza la distribución global de terremotos.
+
+## Contenido
+
+- Exploración de datos
+- Mapas geográficos
+- Análisis de magnitud y profundidad
+
+**[Ir al proyecto](Proyecto.qmd)**
