@@ -3,6 +3,8 @@ title: "Proyecto"
 author: "Ricardo Parra - Esteban Espinoza de los Monteros"
 format: html
 code-fold: true 
+execute:
+  cache: false
 ---
 
 # Importación de librerías
