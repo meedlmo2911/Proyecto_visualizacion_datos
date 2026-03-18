@@ -528,33 +528,34 @@ plt.show()
 import altair as alt
 import pandas as pd
 
-# evitar límite de filas
 alt.data_transformers.disable_max_rows()
 
-# --- DATA LIMPIA ---
-df = gdf.copy()
+# =========================
+# DATA
+# =========================
+df = data.copy()
 
-# coordenadas
-df['lon'] = df.geometry.x
-df['lat'] = df.geometry.y
+df['lon'] = df['longitude']
+df['lat'] = df['latitude']
 
-# quedarnos solo con lo necesario
-df = df[['mag', 'lon', 'lat']].copy()
-df = df.dropna()
+df = df[['mag', 'lon', 'lat']].dropna()
 
-# --- PERCENTILES ---
-df['percentile'] = df['mag'].rank(pct=True) * 100
-
-# --- ESCALA DE TAMAÑO NO LINEAL ---
+# =========================
+# TAMAÑO
+# =========================
 mag = df['mag']
 mag_norm = (mag - mag.min()) / (mag.max() - mag.min())
-df['size'] = 20 + (mag_norm ** 2) * 800
+df['size'] = 50 + (mag_norm ** 2) * 1200
 
-# --- SLIDER ---
-slider = alt.binding_range(min=80, max=100, step=1, name='Percentil mínimo:')
-percentil = alt.param(value=95, bind=slider)
+# =========================
+# SLIDER (TOP N)
+# =========================
+slider = alt.binding_range(min=5, max=100, step=1, name='Top N sismos:')
+top_n = alt.param(value=15, bind=slider)
 
-# --- MAPA BASE ---
+# =========================
+# MAPA BASE
+# =========================
 world = alt.Chart(
     alt.topo_feature(
         'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json',
@@ -562,35 +563,43 @@ world = alt.Chart(
     )
 ).mark_geoshape(
     fill='#f5f5f5',
-    stroke='lightgray'
+    stroke='gray'
 ).properties(
     width=800,
     height=450
 ).project('equalEarth')
 
-# --- PUNTOS ---
-points = alt.Chart(df).mark_circle(
-    opacity=0.75
+# =========================
+# PUNTOS (SIMILAR A TU MATPLOTLIB)
+# =========================
+points = alt.Chart(df).transform_window(
+    rank='rank()',
+    sort=[alt.SortField('mag', order='descending')]
+).transform_filter(
+    alt.datum.rank <= top_n
+).mark_circle(
+    opacity=0.7,
+    stroke='black',
+    strokeWidth=0.5
 ).encode(
     longitude='lon:Q',
     latitude='lat:Q',
-    size=alt.Size('size:Q', legend=None),
+    size=alt.Size('size:Q', legend=None),  # ❌ sin leyenda de tamaños
     color=alt.Color(
         'mag:Q',
         scale=alt.Scale(scheme='reds'),
-        legend=alt.Legend(title="Magnitud")
+        legend=alt.Legend(title="Magnitud")  # ✅ solo color
     ),
     tooltip=[
-        alt.Tooltip('mag:Q', title='Magnitud'),
-        alt.Tooltip('percentile:Q', title='Percentil')
+        alt.Tooltip('mag:Q', title='Magnitud')
     ]
-).transform_filter(
-    f"datum.percentile >= {percentil.name}"
 ).add_params(
-    percentil
+    top_n
 )
 
-# --- COMBINAR ---
+# =========================
+# FINAL
+# =========================
 chart = (world + points).interactive()
 
 chart
