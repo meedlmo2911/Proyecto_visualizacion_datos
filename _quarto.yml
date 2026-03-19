@@ -13,8 +13,8 @@ website:
         text: Limpieza
       - href: Proyecto.qmd
         text: Análisis
-      - href: about.qmd
-        text: Acerca de
+      - href: archivos.qmd
+        text: Archivos
 
 format:
   html:
