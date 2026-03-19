@@ -32,35 +32,7 @@ path = kagglehub.dataset_download("dhrubangtalukdar/200-years-of-global-major-ea
 print("Path to dataset files:", path)
 ```
 
-# Lectura de los datos:
-```{python}
-data = pd.read_csv('/home/esteban/.cache/kagglehub/datasets/dhrubangtalukdar/200-years-of-global-major-earthquakes-18262026/versions/1/earthquake1826_2026.csv')
-data
-```
-## Información de los datos
-```{python}
-data.info()
-```
 
-# Descripción de los datos
-### Se puede observar que existen aproximadamente cien mil observaciones. Existen datos nulos en algunas variables debido a las limitaciones de las herramientas de medición en países en desarrollo y en general las mediciones que se realizaron hace mucho tiempo. Es necesario realizar una selección de las variables que nos iteresan, luego una limpieza y transformación de formatos para facilitar la lectura y procesamiento  de los datos.
-
-# Limpieza y transformación de datos
-```{python}
-data['tiempo'] = pd.to_datetime(data['time'], format = 'ISO8601')
-data['fecha'] = data['tiempo'].dt.date
-data['hora'] = data['tiempo'].dt.time
-
-columnas_correctas = ['fecha', 'hora', 'latitude', 'longitude', 'depth', 'mag']
-data_final = data[columnas_correctas]
-data_final
-```
-
-## Número de valores nulos debido a que son datos muy antiguos:
-```{python}
-data_final['depth'].isnull().sum()
-```
-### Hay 593 valores nulos de profundidad, estos valores se mantendrán debido a que la evolución temporal de los terremotos se realizará con las columnas de fecha, magnitud y coordenadas y es conveniente para el análisis conservar los registros más antiguos aunque no se tenga el dato de profundidad.
 
 # Mapa global de epicentros
 ### El objetivo de esta visualización es poder identificar de manera fácil los países que tienen mayor densidad de terremotos. Para esto se ha propuesto una visualización usando geopandas haciendo uso de las coordenadas para posicionar los diferentes terremotos.
@@ -97,7 +69,9 @@ world = gpd.read_file(url)
 
 # =========================
 # 2. Limpiar datos
-# =========================
+# ========================= 
+
+data = pd.read_csv("/home/esteban/Documentos/data_proyecto.csv")
 data = data.dropna(subset=["latitude", "longitude", "mag"])
 
 
@@ -167,6 +141,8 @@ world = gpd.read_file(url)
 # =========================
 # 2. Limpiar datos
 # =========================
+
+data = pd.read_csv("/home/esteban/Documentos/data_proyecto.csv")
 data = data.dropna(subset=["latitude", "longitude", "mag"])
 
 
@@ -227,6 +203,9 @@ plt.show()
 # =========================
 # 2. CALCULAR ENERGÍA SÍSMICA
 # =========================
+import pandas as pd
+
+data = pd.read_csv("/home/esteban/Documentos/data_proyecto.csv")
 data["energia_sismica"] = 10 ** (1.5 * data["mag"])
 
 # =========================
@@ -297,6 +276,9 @@ plt.show()
 # =========================
 # 2. CALCULAR ENERGÍA SÍSMICA
 # =========================
+import pandas as pd
+
+data = pd.read_csv("/home/esteban/Documentos/data_proyecto.csv")
 data["energia_sismica"] = 10 ** (1.5 * data["mag"])
 
 # =========================
@@ -369,6 +351,9 @@ plt.show()
 ```{python}
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import pandas as pd
+
+data = pd.read_csv("/home/esteban/Documentos/data_proyecto.csv")
 
 ax = plt.axes(projection=ccrs.PlateCarree())
 # Añadir mapa base
@@ -399,6 +384,9 @@ plt.show()
 ```{python}
 import matplotlib.pyplot as plt
 import geopandas as gpd
+import pandas as pd
+
+data = pd.read_csv("/home/esteban/Documentos/data_proyecto.csv")
 
 # 1. Calcular el percentil 90 (top 10%)
 threshold = data['mag'].quantile(0.99)
@@ -446,6 +434,9 @@ world = gpd.read_file(url)
 # =========================
 # FILTRO (elige UNA opción)
 # =========================
+import pandas as pd
+
+data = pd.read_csv("/home/esteban/Documentos/data_proyecto.csv")
 
 # 🔹 Opción B (RECOMENDADA): top 15
 top_quakes = data.nlargest(15, "mag")
@@ -529,6 +520,9 @@ import altair as alt
 import pandas as pd
 
 alt.data_transformers.disable_max_rows()
+import pandas as pd
+
+data = pd.read_csv("/home/esteban/Documentos/data_proyecto.csv")
 
 # =========================
 # DATA
@@ -613,6 +607,9 @@ chart
 ```{python}
 import pandas as pd
 import altair as alt
+import pandas as pd
+
+data = pd.read_csv("/home/esteban/Documentos/data_proyecto.csv")
 
 # =========================
 # PREPARACIÓN DE DATOS
@@ -693,6 +690,9 @@ chart
 ```{python}
 import altair as alt
 import pandas as pd
+import pandas as pd
+
+data = pd.read_csv("/home/esteban/Documentos/data_proyecto.csv")
 
 # =========================
 # PREPARACIÓN
@@ -817,6 +817,9 @@ import altair as alt
 # =========================
 # PREPARACIÓN
 # =========================
+import pandas as pd
+
+data = pd.read_csv("/home/esteban/Documentos/data_proyecto.csv")
 
 df = data.copy()
 

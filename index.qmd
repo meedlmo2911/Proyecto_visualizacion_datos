@@ -4,12 +4,28 @@ title: "Inicio"
 
 # Proyecto de Visualización de Datos
 
-Este proyecto analiza la distribución global de terremotos.
+Análisis la distribución global de terremotos.
 
 ## Contenido
 
 - Exploración de datos
+- Limpieza de datos
 - Mapas geográficos
 - Análisis de magnitud y profundidad
 
+# Contexto
+### Los terremotos son fenómenos naturales que ocurren con frecuencia alrededor del mundo, principalmente en zonas tectónicas activas. Comprender dónde ocurren, con qué magnitud y cómo cambian en el tiempo puede ayudar a identificar patrones geográficos y temporales de la actividad sísmica.
+
+# Motivación 
+## Existe una gran cantidad de datos históricos bastante detallados para su uso.
+
+## La visualización de data en este tipo de fenómenos naturales permite identificar patrones que no son evidentes mediante datos tabulares o estadísticas simples.
+
+# Preguntas que se intentan responder
+## ¿Cómo se distribuyen geográficamente los terremotos a nivel mundial y qué regiones concentran mayor actividad sísmica?
+## ¿Cómo ha evolucionado la frecuencia de terremotos registrados entre 1826 y 2026?
+## ¿Dónde se concentran los terremotos de mayor magnitud y cómo se distribuyen geográficamente?
+## ¿Existe relación entre la profundidad del terremoto y su magnitud?
+
+**[Ir a la limpieza](Limpieza.qmd)**
 **[Ir al proyecto](Proyecto.qmd)**

@@ -1,19 +1,23 @@
 project:
   type: website
-  output-dir: docs
+  output-dir: _site
 
 website:
-  title: "Proyecto Visualización de Datos"
+  title: "Proyecto de Visualización de Datos: Terremotos"
+  
   navbar:
     left:
       - href: index.qmd
         text: Inicio
+      - href: Limpieza.qmd
+        text: Limpieza
       - href: Proyecto.qmd
-        text: Proyecto
+        text: Análisis
+      - href: about.qmd
+        text: Acerca de
 
 format:
   html:
     theme: cosmo
     css: styles.css
     toc: true
-

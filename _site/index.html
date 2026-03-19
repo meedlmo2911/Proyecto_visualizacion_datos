@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>proyecto_web_limpio</title>
+<title>Inicio – Proyecto de Visualización de Datos: Terremotos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -81,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">proyecto_web_limpio</span>
+    <span class="navbar-title">Proyecto de Visualización de Datos: Terremotos</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -92,11 +92,19 @@ ul.task-list li input[type="checkbox"] {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link active" href="./index.html" aria-current="page"> 
-<span class="menu-text">Home</span></a>
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Limpieza.html"> 
+<span class="menu-text">Limpieza</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Proyecto.html"> 
+<span class="menu-text">Análisis</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
+<span class="menu-text">Acerca de</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -109,15 +117,40 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#proyecto-de-visualización-de-datos" id="toc-proyecto-de-visualización-de-datos" class="nav-link active" data-scroll-target="#proyecto-de-visualización-de-datos">Proyecto de Visualización de Datos</a>
+  <ul class="collapse">
+  <li><a href="#contenido" id="toc-contenido" class="nav-link" data-scroll-target="#contenido">Contenido</a></li>
+  </ul></li>
+  <li><a href="#contexto" id="toc-contexto" class="nav-link" data-scroll-target="#contexto">Contexto</a>
+  <ul class="collapse">
+  <li><a href="#los-terremotos-son-fenómenos-naturales-que-ocurren-con-frecuencia-alrededor-del-mundo-principalmente-en-zonas-tectónicas-activas.-comprender-dónde-ocurren-con-qué-magnitud-y-cómo-cambian-en-el-tiempo-puede-ayudar-a-identificar-patrones-geográficos-y-temporales-de-la-actividad-sísmica." id="toc-los-terremotos-son-fenómenos-naturales-que-ocurren-con-frecuencia-alrededor-del-mundo-principalmente-en-zonas-tectónicas-activas.-comprender-dónde-ocurren-con-qué-magnitud-y-cómo-cambian-en-el-tiempo-puede-ayudar-a-identificar-patrones-geográficos-y-temporales-de-la-actividad-sísmica." class="nav-link" data-scroll-target="#los-terremotos-son-fenómenos-naturales-que-ocurren-con-frecuencia-alrededor-del-mundo-principalmente-en-zonas-tectónicas-activas.-comprender-dónde-ocurren-con-qué-magnitud-y-cómo-cambian-en-el-tiempo-puede-ayudar-a-identificar-patrones-geográficos-y-temporales-de-la-actividad-sísmica.">Los terremotos son fenómenos naturales que ocurren con frecuencia alrededor del mundo, principalmente en zonas tectónicas activas. Comprender dónde ocurren, con qué magnitud y cómo cambian en el tiempo puede ayudar a identificar patrones geográficos y temporales de la actividad sísmica.</a></li>
+  </ul></li>
+  <li><a href="#motivación" id="toc-motivación" class="nav-link" data-scroll-target="#motivación">Motivación</a>
+  <ul class="collapse">
+  <li><a href="#existe-una-gran-cantidad-de-datos-históricos-bastante-detallados-para-su-uso." id="toc-existe-una-gran-cantidad-de-datos-históricos-bastante-detallados-para-su-uso." class="nav-link" data-scroll-target="#existe-una-gran-cantidad-de-datos-históricos-bastante-detallados-para-su-uso.">Existe una gran cantidad de datos históricos bastante detallados para su uso.</a></li>
+  <li><a href="#la-visualización-de-data-en-este-tipo-de-fenómenos-naturales-permite-identificar-patrones-que-no-son-evidentes-mediante-datos-tabulares-o-estadísticas-simples." id="toc-la-visualización-de-data-en-este-tipo-de-fenómenos-naturales-permite-identificar-patrones-que-no-son-evidentes-mediante-datos-tabulares-o-estadísticas-simples." class="nav-link" data-scroll-target="#la-visualización-de-data-en-este-tipo-de-fenómenos-naturales-permite-identificar-patrones-que-no-son-evidentes-mediante-datos-tabulares-o-estadísticas-simples.">La visualización de data en este tipo de fenómenos naturales permite identificar patrones que no son evidentes mediante datos tabulares o estadísticas simples.</a></li>
+  </ul></li>
+  <li><a href="#preguntas-que-se-intentan-responder" id="toc-preguntas-que-se-intentan-responder" class="nav-link" data-scroll-target="#preguntas-que-se-intentan-responder">Preguntas que se intentan responder</a>
+  <ul class="collapse">
+  <li><a href="#cómo-se-distribuyen-geográficamente-los-terremotos-a-nivel-mundial-y-qué-regiones-concentran-mayor-actividad-sísmica" id="toc-cómo-se-distribuyen-geográficamente-los-terremotos-a-nivel-mundial-y-qué-regiones-concentran-mayor-actividad-sísmica" class="nav-link" data-scroll-target="#cómo-se-distribuyen-geográficamente-los-terremotos-a-nivel-mundial-y-qué-regiones-concentran-mayor-actividad-sísmica">¿Cómo se distribuyen geográficamente los terremotos a nivel mundial y qué regiones concentran mayor actividad sísmica?</a></li>
+  <li><a href="#cómo-ha-evolucionado-la-frecuencia-de-terremotos-registrados-entre-1826-y-2026" id="toc-cómo-ha-evolucionado-la-frecuencia-de-terremotos-registrados-entre-1826-y-2026" class="nav-link" data-scroll-target="#cómo-ha-evolucionado-la-frecuencia-de-terremotos-registrados-entre-1826-y-2026">¿Cómo ha evolucionado la frecuencia de terremotos registrados entre 1826 y 2026?</a></li>
+  <li><a href="#dónde-se-concentran-los-terremotos-de-mayor-magnitud-y-cómo-se-distribuyen-geográficamente" id="toc-dónde-se-concentran-los-terremotos-de-mayor-magnitud-y-cómo-se-distribuyen-geográficamente" class="nav-link" data-scroll-target="#dónde-se-concentran-los-terremotos-de-mayor-magnitud-y-cómo-se-distribuyen-geográficamente">¿Dónde se concentran los terremotos de mayor magnitud y cómo se distribuyen geográficamente?</a></li>
+  <li><a href="#existe-relación-entre-la-profundidad-del-terremoto-y-su-magnitud" id="toc-existe-relación-entre-la-profundidad-del-terremoto-y-su-magnitud" class="nav-link" data-scroll-target="#existe-relación-entre-la-profundidad-del-terremoto-y-su-magnitud">¿Existe relación entre la profundidad del terremoto y su magnitud?</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">proyecto_web_limpio</h1>
+<h1 class="title">Inicio</h1>
 </div>
 
 
@@ -134,10 +167,52 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This is a Quarto website.</p>
-<p>To learn more about Quarto websites visit <a href="https://quarto.org/docs/websites" class="uri">https://quarto.org/docs/websites</a>.</p>
+<section id="proyecto-de-visualización-de-datos" class="level1">
+<h1>Proyecto de Visualización de Datos</h1>
+<p>Análisis la distribución global de terremotos.</p>
+<section id="contenido" class="level2">
+<h2 class="anchored" data-anchor-id="contenido">Contenido</h2>
+<ul>
+<li>Exploración de datos</li>
+<li>Limpieza de datos</li>
+<li>Mapas geográficos</li>
+<li>Análisis de magnitud y profundidad</li>
+</ul>
+</section>
+</section>
+<section id="contexto" class="level1">
+<h1>Contexto</h1>
+<section id="los-terremotos-son-fenómenos-naturales-que-ocurren-con-frecuencia-alrededor-del-mundo-principalmente-en-zonas-tectónicas-activas.-comprender-dónde-ocurren-con-qué-magnitud-y-cómo-cambian-en-el-tiempo-puede-ayudar-a-identificar-patrones-geográficos-y-temporales-de-la-actividad-sísmica." class="level3">
+<h3 class="anchored" data-anchor-id="los-terremotos-son-fenómenos-naturales-que-ocurren-con-frecuencia-alrededor-del-mundo-principalmente-en-zonas-tectónicas-activas.-comprender-dónde-ocurren-con-qué-magnitud-y-cómo-cambian-en-el-tiempo-puede-ayudar-a-identificar-patrones-geográficos-y-temporales-de-la-actividad-sísmica.">Los terremotos son fenómenos naturales que ocurren con frecuencia alrededor del mundo, principalmente en zonas tectónicas activas. Comprender dónde ocurren, con qué magnitud y cómo cambian en el tiempo puede ayudar a identificar patrones geográficos y temporales de la actividad sísmica.</h3>
+</section>
+</section>
+<section id="motivación" class="level1">
+<h1>Motivación</h1>
+<section id="existe-una-gran-cantidad-de-datos-históricos-bastante-detallados-para-su-uso." class="level2">
+<h2 class="anchored" data-anchor-id="existe-una-gran-cantidad-de-datos-históricos-bastante-detallados-para-su-uso.">Existe una gran cantidad de datos históricos bastante detallados para su uso.</h2>
+</section>
+<section id="la-visualización-de-data-en-este-tipo-de-fenómenos-naturales-permite-identificar-patrones-que-no-son-evidentes-mediante-datos-tabulares-o-estadísticas-simples." class="level2">
+<h2 class="anchored" data-anchor-id="la-visualización-de-data-en-este-tipo-de-fenómenos-naturales-permite-identificar-patrones-que-no-son-evidentes-mediante-datos-tabulares-o-estadísticas-simples.">La visualización de data en este tipo de fenómenos naturales permite identificar patrones que no son evidentes mediante datos tabulares o estadísticas simples.</h2>
+</section>
+</section>
+<section id="preguntas-que-se-intentan-responder" class="level1">
+<h1>Preguntas que se intentan responder</h1>
+<section id="cómo-se-distribuyen-geográficamente-los-terremotos-a-nivel-mundial-y-qué-regiones-concentran-mayor-actividad-sísmica" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-se-distribuyen-geográficamente-los-terremotos-a-nivel-mundial-y-qué-regiones-concentran-mayor-actividad-sísmica">¿Cómo se distribuyen geográficamente los terremotos a nivel mundial y qué regiones concentran mayor actividad sísmica?</h2>
+</section>
+<section id="cómo-ha-evolucionado-la-frecuencia-de-terremotos-registrados-entre-1826-y-2026" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-ha-evolucionado-la-frecuencia-de-terremotos-registrados-entre-1826-y-2026">¿Cómo ha evolucionado la frecuencia de terremotos registrados entre 1826 y 2026?</h2>
+</section>
+<section id="dónde-se-concentran-los-terremotos-de-mayor-magnitud-y-cómo-se-distribuyen-geográficamente" class="level2">
+<h2 class="anchored" data-anchor-id="dónde-se-concentran-los-terremotos-de-mayor-magnitud-y-cómo-se-distribuyen-geográficamente">¿Dónde se concentran los terremotos de mayor magnitud y cómo se distribuyen geográficamente?</h2>
+</section>
+<section id="existe-relación-entre-la-profundidad-del-terremoto-y-su-magnitud" class="level2">
+<h2 class="anchored" data-anchor-id="existe-relación-entre-la-profundidad-del-terremoto-y-su-magnitud">¿Existe relación entre la profundidad del terremoto y su magnitud?</h2>
+<p><strong><a href="./Limpieza.html">Ir a la limpieza</a></strong> <strong><a href="./Proyecto.html">Ir al proyecto</a></strong></p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
